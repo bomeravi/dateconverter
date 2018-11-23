@@ -2,6 +2,10 @@
 namespace Bomeravi\dateConverter;
 
 class dateConverter {
+	public $conversion_type='';
+	public $debug_info = "";
+	private $_nep_date = array('year' => '', 'month' => '', 'day' => '',  'week_day' => '');
+	private $_eng_date = array('year' => '', 'month' => '', 'day' => '',   'week_day' => '');
 	private $_bs = array(
 		0 => array(2000,30,32,31,32,31,30,30,30,29,30,29,31),
 		1 => array(2001,31,31,32,31,31,31,30,29,30,29,30,30),
@@ -95,246 +99,28 @@ class dateConverter {
 		89 => array(2089,30,32,31,32,31,30,30,30,29,30,30,30),
 		90 => array(2090,30,32,31,32,31,30,30,30,29,30,30,30)
 	);
-	private $_nep_date = array('year' => '', 'month' => '', 'date' => '', 'day' => '', 'nmonth' => '', 'num_day' => '');
-	private $_eng_date = array('year' => '', 'month' => '', 'date' => '', 'day' => '', 'emonth' => '', 'num_day' => '');
-	public $debug_info = "";
 	/**
 	 * Return day
 	 *
 	 * @param int $day
 	 * @return string
 	 */
-	 
-	private function _get_day_of_week($day)
-	{
-		switch ($day)
-		{
-			case 1:
-				$day = "Sunday";
-				break;
-			case 2:
-				$day = "Monday";
-				break;
-			case 3:
-				$day = "Tuesday";
-				break;
-			case 4:
-				$day = "Wednesday";
-				break;
-			case 5:
-				$day = "Thursday";
-				break;
-			case 6:
-				$day = "Friday";
-				break;
-			case 7:
-				$day = "Saturday";
-				break;
-		}
-		return $day;
-	}
 	
-	private function _get_short_day_of_week($day)
-	{
-		switch ($day)
-		{
-			case 1:
-				$day = "Sun";
-				break;
-			case 2:
-				$day = "Mon";
-				break;
-			case 3:
-				$day = "Tue";
-				break;
-			case 4:
-				$day = "Wed";
-				break;
-			case 5:
-				$day = "Thu";
-				break;
-			case 6:
-				$day = "Fri";
-				break;
-			case 7:
-				$day = "Sat";
-				break;
-		}
-		return $day;
-	}
 	
-	private function _get_ne_day_of_week($day)
-	{
-		switch ($day)
-		{
-			case 1:
-				$day = "आइतवार";
-				break;
-			case 2:
-				$day = "सोमवार";
-				break;
-			case 3:
-				$day = "मंगलवार";
-				break;
-			case 4:
-				$day = "वुधवार";
-				break;
-			case 5:
-				$day = "विहीवार";
-				break;
-			case 6:
-				$day = "शुक्रवार";
-				break;
-			case 7:
-				$day = "शनिवार";
-				break;
-		}
-		return $day;
-	}
+	
 	/**
 	 * Return english month name
 	 *
 	 * @param int $m
 	 * @return string
 	 */
-	private function _get_english_month($m)
-	{
-		$eMonth = FALSE;
-		switch ($m)
-		{
-			case 1:
-				$eMonth = "January";
-				break;
-			case 2:
-				$eMonth = "February";
-				break;
-			case 3:
-				$eMonth = "March";
-				break;
-			case 4:
-				$eMonth = "April";
-				break;
-			case 5:
-				$eMonth = "May";
-				break;
-			case 6:
-				$eMonth = "June";
-				break;
-			case 7:
-				$eMonth = "July";
-				break;
-			case 8:
-				$eMonth = "August";
-				break;
-			case 9:
-				$eMonth = "September";
-				break;
-			case 10:
-				$eMonth = "October";
-				break;
-			case 11:
-				$eMonth = "November";
-				break;
-			case 12:
-				$eMonth = "December";
-		}
-		return $eMonth;
-	}
+	
 	/**
 	 * Return nepali month name
 	 *
 	 * @param int $m
 	 * @return string
 	 */
-	private function _get_nepali_month($m)
-	{
-		$n_month = FALSE;
-		switch ($m)
-		{
-			case 1:
-				$n_month = "Baishak";
-				break;
-			case 2:
-				$n_month = "Jestha";
-				break;
-			case 3:
-				$n_month = "Ashad";
-				break;
-			case 4:
-				$n_month = "Shrawn";
-				break;
-			case 5:
-				$n_month = "Bhadra";
-				break;
-			case 6:
-				$n_month = "Ashwin";
-				break;
-			case 7:
-				$n_month = "kartik";
-				break;
-			case 8:
-				$n_month = "Mangshir";
-				break;
-			case 9:
-				$n_month = "Poush";
-				break;
-			case 10:
-				$n_month = "Magh";
-				break;
-			case 11:
-				$n_month = "Falgun";
-				break;
-			case 12:
-				$n_month = "Chaitra";
-				break;
-		}
-		return $n_month;
-	}
-	
-	private function _get_ne_nepali_month($m)
-	{
-		$n_month = FALSE;
-		switch ($m)
-		{
-			case 1:
-				$n_month = "बैशाख";
-				break;
-			case 2:
-				$n_month = "जेठ";
-				break;
-			case 3:
-				$n_month = "असार";
-				break;
-			case 4:
-				$n_month = "साउन";
-				break;
-			case 5:
-				$n_month = "भदौ";
-				break;
-			case 6:
-				$n_month = "असोज";
-				break;
-			case 7:
-				$n_month = "कार्तिक";
-				break;
-			case 8:
-				$n_month = "मंसिर";
-				break;
-			case 9:
-				$n_month = "पौष";
-				break;
-			case 10:
-				$n_month = "माघ";
-				break;
-			case 11:
-				$n_month = "फाल्गुण";
-				break;
-			case 12:
-				$n_month = "चैत";
-				break;
-		}
-		return $n_month;
-	}
 	
 	
 	
@@ -428,11 +214,17 @@ class dateConverter {
 	 */
 	public function eng_calc_nep($yy, $mm, $dd)
 	{
+		$this->_eng_date['year']    = $yy;
+			$this->_eng_date['month']   = $mm;
+			$this->_eng_date['day']    = $dd;
+			$this->conversion_type = 'eng_to_nep';
 		// Check for date range
 		$chk = $this->_is_in_range_eng($yy, $mm, $dd);
 		if($chk !== TRUE)
 		{
-			die($chk);
+			//$data['error'] = 'Out of Range';
+			//return $data;
+			return false;
 		}
 		else
 		{
@@ -527,10 +319,8 @@ class dateConverter {
 			$numDay = $day;
 			$this->_nep_date['year']    = $y;
 			$this->_nep_date['month']   = $m;
-			$this->_nep_date['date']    = $total_nDays;
-			$this->_nep_date['day']     = $this->_get_day_of_week($day);
-			$this->_nep_date['nmonth']  = $this->_get_nepali_month($m);
-			$this->_nep_date['num_day'] = $numDay;
+			$this->_nep_date['day']    = $total_nDays;
+			$this->_nep_date['week_day'] = $numDay;
 			return $this->_nep_date;
 		}
 	}
@@ -544,6 +334,10 @@ class dateConverter {
 	 */
 	public function nep_calc_eng($yy, $mm, $dd)
 	{
+		$this->_nep_date['year']    = $yy;
+		$this->_nep_date['month']   = $mm;
+		$this->_nep_date['day']    = $dd;
+		$this->conversion_type = 'nep_to_eng';
 		$def_eyy     = 1943;
 		$def_emm     = 4;
 		$def_edd     = 14 - 1;	// initial english date.
@@ -559,41 +353,15 @@ class dateConverter {
 		$i           = 0;
 		$k           = 0;
 		$numDay      = 0;
-		$month  = array(
-			0,
-			31,
-			28,
-			31,
-			30,
-			31,
-			30,
-			31,
-			31,
-			30,
-			31,
-			30,
-			31
-		);
-		$lmonth = array(
-			0,
-			31,
-			29,
-			31,
-			30,
-			31,
-			30,
-			31,
-			31,
-			30,
-			31,
-			30,
-			31
-		);
+		$month  = array( 0,31,28,31,30,31,30,31,31,30,31,30,31 );
+		$lmonth = array( 0,31,29,31,30,31,30,31,31,30,31,30,31);
 		// Check for date range
 		$chk = $this->_is_in_range_nep($yy, $mm, $dd);
 		if ( $chk !== TRUE)
 		{
-			die($chk);
+			//$data['error'] = 'Invalid Date or Date not in the given range';
+			//return $data;
+			return false;
 		}
 		else
 		{
@@ -649,12 +417,16 @@ class dateConverter {
 			$numDay = $day;
 			$this->_eng_date['year']    = $y;
 			$this->_eng_date['month']   = $m;
-			$this->_eng_date['date']    = $total_eDays;
-			$this->_eng_date['day']     = $this->_get_day_of_week($day);
-			$this->_eng_date['nmonth']  = $this->_get_english_month($m);
-			$this->_eng_date['num_day'] = $numDay;
+			$this->_eng_date['day']    = $total_eDays;
+			$this->_eng_date['week_day'] = $numDay;
 			return $this->_eng_date;
 		}
+	}
+	public function get_nep_date(){
+		return $this->_nep_date;
+	}
+	public function get_eng_date(){
+		return $this->_eng_date;
 	}
 	
 	public function eng_to_nep($date, $mm=null,$dd=null){ //input yy-mm-dd or yy/mm/dd
